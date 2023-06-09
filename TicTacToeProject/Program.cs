@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TicTacToeProject
@@ -17,7 +18,67 @@ namespace TicTacToeProject
 
         static void Main(string[] args)
         {
+            // DrawGameBoard();
+
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Player 1: X and player 2: O" + "\n");
+
+                if (player % 2 == 0)
+                {
+                    Console.WriteLine("Player 2's turn");
+                }
+                else
+                {
+                    Console.WriteLine("Player 1's turn");
+                }
+
+                Console.WriteLine("\n");
+                DrawGameBoard();
+                choice = int.Parse(Console.ReadLine()) - 1;  // negative 1 accounts for the indexing which starts at 0
+
+                if (spaces[choice] != 'X' && spaces[choice] != 'O')
+                {
+                    if (player % 2 == 0)
+                    {
+                        DrawsO(choice);
+                    }
+                    else
+                    {
+                        DrawsX(choice);
+                    }
+                    player++;
+                }
+                else
+                {
+                    Console.WriteLine("Sorry the row {0} is already marked with {1}", choice, spaces[choice]);
+                    Console.WriteLine("Please wait, game board is reloading...");
+                    Thread.Sleep(2000);
+                }
+
+                flag = CheckWin();
+
+            } while (flag != 1 && flag != -1);     // neither player has won
+
+            Console.Clear();
             DrawGameBoard();
+
+            if (flag == 1)
+            {
+                Console.WriteLine("Player {0} has won!", (player % 2) + 1);
+            }
+            else
+            {
+                Console.WriteLine("It's a draw game!");
+            }
+
+            Console.ReadKey();
+
+
+
+
 
             Console.ReadKey();
         }
